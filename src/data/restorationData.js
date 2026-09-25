@@ -2,6 +2,7 @@ export const restorationNavigation = [
   { label: '修复总览', to: '/' },
   { label: '批次档案', to: '/batches' },
   { label: '任务清单', to: '/tasks' },
+  { label: '修复工作台', to: '/workbench' },
 ]
 
 export const restorationHero = {
@@ -15,6 +16,7 @@ export const restorationHero = {
 
 export const restorationBatches = [
   {
+    id: 'A-03',
     code: 'A-03',
     title: '明抄本县志残卷',
     pages: '17-29',
@@ -23,6 +25,7 @@ export const restorationBatches = [
     note: '虫道集中在装订线外沿。',
   },
   {
+    id: 'B-11',
     code: 'B-11',
     title: '碑帖拓片册页',
     pages: '5-14',
@@ -31,6 +34,7 @@ export const restorationBatches = [
     note: '需先降湿 48 小时，再进入纤维加固。',
   },
   {
+    id: 'C-02',
     code: 'C-02',
     title: '戏曲抄本散页',
     pages: '1-9',
@@ -67,6 +71,7 @@ export const restorationSteps = [
 
 export const restorationTasks = [
   {
+    objectId: 'A-03',
     title: '明抄本县志残卷',
     stage: '补纸前',
     risk: 'high',
@@ -74,6 +79,7 @@ export const restorationTasks = [
     note: '虫道贯穿标题栏，需先固色。',
   },
   {
+    objectId: 'B-11',
     title: '碑帖拓片册页',
     stage: '控湿中',
     risk: 'medium',
@@ -81,6 +87,7 @@ export const restorationTasks = [
     note: '边缘卷曲，可延后压平。',
   },
   {
+    objectId: 'C-02',
     title: '戏曲抄本散页',
     stage: '归档前',
     risk: 'low',
@@ -88,3 +95,21 @@ export const restorationTasks = [
     note: '等待封套尺寸确认。',
   },
 ]
+
+/**
+ * 修复对象主数据：任务清单与修复工作台共用同一份，
+ * id 取批次编码，保证两处切换对象时指向同一备注线程。
+ */
+export const restorationObjects = restorationTasks.map((task) => {
+  const batch = restorationBatches.find((item) => item.id === task.objectId)
+  return {
+    id: task.objectId,
+    title: task.title,
+    stage: task.stage,
+    risk: task.risk,
+    owner: task.owner,
+    pages: batch?.pages ?? '',
+    batchNote: batch?.note ?? '',
+    taskNote: task.note,
+  }
+})

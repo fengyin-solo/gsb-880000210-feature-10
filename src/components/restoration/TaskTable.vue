@@ -1,5 +1,7 @@
 <script setup>
+import { useRouter } from 'vue-router'
 import { riskMeta } from '../../utils/restorationFormatters'
+import { useRestorationNotes } from '../../composables/useRestorationNotes'
 
 defineProps({
   rows: {
@@ -7,6 +9,13 @@ defineProps({
     required: true,
   },
 })
+
+const router = useRouter()
+const { noteCountFor, latestNoteFor } = useRestorationNotes()
+
+function openObject(objectId) {
+  router.push({ path: '/workbench', query: { object: objectId } })
+}
 </script>
 
 <template>
@@ -16,11 +25,13 @@ defineProps({
       <span>阶段</span>
       <span>风险</span>
       <span>负责人</span>
-      <span>说明</span>
+      <span>备注</span>
+      <span>最新说明</span>
+      <span></span>
     </div>
     <div
       v-for="row in rows"
-      :key="`${row.title}-${row.owner}`"
+      :key="row.objectId"
       class="task-row"
     >
       <span>{{ row.title }}</span>
@@ -29,7 +40,18 @@ defineProps({
         {{ riskMeta(row.risk).label }}
       </span>
       <span>{{ row.owner }}</span>
-      <span>{{ row.note }}</span>
+      <span class="note-count">{{ noteCountFor(row.objectId) }} 条</span>
+      <span class="note-text">
+        <template v-if="latestNoteFor(row.objectId)">
+          {{ latestNoteFor(row.objectId).content }}
+        </template>
+        <span v-else class="note-empty">暂无备注</span>
+      </span>
+      <span>
+        <button type="button" class="enter-btn" @click="openObject(row.objectId)">
+          进入工作台
+        </button>
+      </span>
     </div>
   </div>
 </template>
@@ -43,7 +65,7 @@ defineProps({
 
 .task-row {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr 0.6fr 0.7fr 1.3fr;
+  grid-template-columns: 1.2fr 0.8fr 0.6fr 0.7fr 0.6fr 1.3fr 0.9fr;
   gap: 12px;
   align-items: center;
   padding: 14px 16px;
@@ -85,13 +107,47 @@ defineProps({
   color: #366338;
 }
 
+.note-count {
+  color: #5d4322;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.note-text {
+  color: #4a3a24;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.note-empty {
+  color: #9a8768;
+}
+
+.enter-btn {
+  font: inherit;
+  font-size: 0.82rem;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid #5d4322;
+  background: transparent;
+  color: #5d4322;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.enter-btn:hover {
+  background: #5d4322;
+  color: #fff8eb;
+}
+
 @media (max-width: 900px) {
   .task-table {
     overflow-x: auto;
   }
 
   .task-row {
-    min-width: 780px;
+    min-width: 900px;
   }
 }
 </style>
