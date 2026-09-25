@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import DashboardView from '../views/DashboardView.vue'
 import BatchLibraryView from '../views/BatchLibraryView.vue'
+import RepairDeskView from '../views/RepairDeskView.vue'
 import TaskBoardView from '../views/TaskBoardView.vue'
 
 const routes = [
@@ -14,6 +15,11 @@ const routes = [
     path: '/batches',
     name: 'batches',
     component: BatchLibraryView,
+  },
+  {
+    path: '/desk',
+    name: 'desk',
+    component: RepairDeskView,
   },
   {
     path: '/tasks',

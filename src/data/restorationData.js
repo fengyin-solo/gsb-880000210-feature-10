@@ -1,6 +1,7 @@
 export const restorationNavigation = [
   { label: '修复总览', to: '/' },
   { label: '批次档案', to: '/batches' },
+  { label: '修复工作台', to: '/desk' },
   { label: '任务清单', to: '/tasks' },
 ]
 
@@ -15,6 +16,7 @@ export const restorationHero = {
 
 export const restorationBatches = [
   {
+    id: 'A-03',
     code: 'A-03',
     title: '明抄本县志残卷',
     pages: '17-29',
@@ -23,6 +25,7 @@ export const restorationBatches = [
     note: '虫道集中在装订线外沿。',
   },
   {
+    id: 'B-11',
     code: 'B-11',
     title: '碑帖拓片册页',
     pages: '5-14',
@@ -31,6 +34,7 @@ export const restorationBatches = [
     note: '需先降湿 48 小时，再进入纤维加固。',
   },
   {
+    id: 'C-02',
     code: 'C-02',
     title: '戏曲抄本散页',
     pages: '1-9',
@@ -38,6 +42,20 @@ export const restorationBatches = [
     status: '归档前',
     note: '边角缺损明显，建议先做透明托裱。',
   },
+]
+
+// 修复备注可关联的标准工序
+export const restorationProcesses = [
+  '拍照建档',
+  '控湿处理',
+  '固色处理',
+  '低压除尘',
+  '喷雾回软',
+  '局部补纸',
+  '纤维加固',
+  '平整定型',
+  '透明托裱',
+  '归档入盒',
 ]
 
 export const restorationEnvironment = [
@@ -67,6 +85,7 @@ export const restorationSteps = [
 
 export const restorationTasks = [
   {
+    id: 'A-03',
     title: '明抄本县志残卷',
     stage: '补纸前',
     risk: 'high',
@@ -74,6 +93,7 @@ export const restorationTasks = [
     note: '虫道贯穿标题栏，需先固色。',
   },
   {
+    id: 'B-11',
     title: '碑帖拓片册页',
     stage: '控湿中',
     risk: 'medium',
@@ -81,6 +101,7 @@ export const restorationTasks = [
     note: '边缘卷曲，可延后压平。',
   },
   {
+    id: 'C-02',
     title: '戏曲抄本散页',
     stage: '归档前',
     risk: 'low',
